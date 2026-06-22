@@ -160,7 +160,7 @@ button,input,select{font-size:var(--control-font,18px)!important;min-height:var(
 
 <div id="historyPanel" class="overlay hidden"><div class="panel"><div class="panel-head"><h2>ประวัติย้อนหลัง</h2><button class="x" onclick="closePanels()">ปิด</button></div><div class="panel-body"><div class="form-grid"><input id="hSearch" oninput="renderHistory()" placeholder="ค้นหาชื่อรายการ/พนักงาน"><select id="hType" onchange="renderHistory()"><option value="">ทุกประเภท</option><option>รับเข้า</option><option>เบิกออก</option><option>นับใหม่</option><option>เพิ่มรายการ</option><option>แก้รายการ</option><option>ลบรายการ</option></select></div><button class="btn-soft" style="margin:12px 0" onclick="exportHistoryCSV()">ส่งออกประวัติ CSV</button><div id="historyList"></div></div></div></div>
 
-<div id="backupPanel" class="overlay hidden"><div class="panel"><div class="panel-head"><h2>สำรอง / กู้คืนข้อมูล</h2><button class="x" onclick="closePanels()">ปิด</button></div><div class="panel-body"><div class="btn-row"><button class="btn-main" onclick="downloadBackup()">ดาวน์โหลดข้อมูลสำรอง</button><button class="btn-soft" onclick="exportStockCSV()">ส่งออกสต๊อก CSV</button></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><h3>Google Apps Script Backup</h3><label>Google Apps Script Web App URL</label><input id="appsScriptUrl" placeholder="วาง Web App URL"><div class="backup-row-3"><div><label>Auto Backup</label><select id="backupMode"><option value="off">ปิด</option><option value="interval">สำรองทุกกี่นาที</option><option value="onChange">สำรองเมื่อมีการทำรายการ</option><option value="both">ทั้งทุกกี่นาทีและเมื่อมีรายการ</option></select></div><div><label>ทุกกี่นาที</label><input id="backupEveryMinutes" type="number" min="1" step="1" value="15"></div><div style="align-self:end"><button class="btn-main" style="width:100%" onclick="saveBackupSettings()">บันทึกตั้งค่า</button></div></div><div class="backup-row"><button class="btn-soft" onclick="backupNowToDrive()">สำรองไป Google Drive ตอนนี้</button><button class="btn-white" onclick="testAppsScriptBackup()">ทดสอบส่งสำรอง</button></div><div id="driveStatus" class="backup-status">ยังไม่ได้ตั้งค่า Google Apps Script</div><label style="display:block;margin-top:18px">กู้คืนจากไฟล์ JSON</label><input type="file" id="restoreFile" accept="application/json"><button class="btn-danger" style="margin-top:10px" onclick="restoreBackup()">กู้คืนข้อมูล</button></div></div></div>
+<div id="backupPanel" class="overlay hidden"><div class="panel"><div class="panel-head"><h2>สำรอง / กู้คืนข้อมูล</h2><button class="x" onclick="closePanels()">ปิด</button></div><div class="panel-body"><div class="btn-row"><button class="btn-main" onclick="downloadBackup()">ดาวน์โหลดข้อมูลสำรอง JSON</button><button class="btn-soft" onclick="exportStockCSV()">ส่งออกสต๊อก CSV</button></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><h3>Google Apps Script Backup</h3><label>Google Apps Script Web App URL</label><input id="appsScriptUrl" placeholder="วาง Web App URL"><div class="backup-row-3"><div><label>Auto Backup</label><select id="backupMode"><option value="off">ปิด</option><option value="interval">สำรองทุกกี่นาที</option><option value="onChange">สำรองเมื่อมีการทำรายการ</option><option value="both">ทั้งทุกกี่นาทีและเมื่อมีรายการ</option></select></div><div><label>ทุกกี่นาที</label><input id="backupEveryMinutes" type="number" min="1" step="1" value="15"></div><div style="align-self:end"><button class="btn-main" style="width:100%" onclick="saveBackupSettings()">บันทึกตั้งค่า</button></div></div><div class="backup-row"><button class="btn-soft" onclick="backupNowToDrive()">สำรองไป Google Drive ตอนนี้</button><button class="btn-white" onclick="testAppsScriptBackup()">ทดสอบส่งสำรอง</button></div><div id="driveStatus" class="backup-status">ยังไม่ได้ตั้งค่า Google Apps Script</div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div id="restoreOwnerSection" class="ownerOnly"><h3>Restore / กู้คืนข้อมูล</h3><div class="notice">เฉพาะเจ้าของเท่านั้น: ต้องกรอก PIN ของบัญชีตัวเองก่อนกู้คืนทุกครั้ง</div><label>PIN เจ้าของที่กำลังใช้งาน</label><input id="restoreOwnerPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="กรอก PIN เพื่อยืนยันก่อน Restore"><label style="display:block;margin-top:14px">Restore จากไฟล์ JSON / CSV / Excel</label><input type="file" id="restoreFile" accept=".json,.csv,.xlsx,.xls,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"><div class="btn-row"><button class="btn-danger" onclick="restoreFromSelectedFile()">Restore จากไฟล์</button><button class="btn-white" onclick="clearRestoreInputs()">ล้างช่อง</button></div><label style="display:block;margin-top:16px">Restore จาก Google Sheet URL</label><input id="restoreSheetUrl" placeholder="วางลิงก์ Google Sheet"><div class="btn-row"><button class="btn-danger" onclick="restoreFromGoogleSheet()">Restore จาก Google Sheet</button><button class="btn-soft" onclick="showRestoreFormat()">ดูรูปแบบตาราง</button></div><div class="hint" style="margin-top:10px">JSON = กู้คืนข้อมูลทั้งระบบ / CSV, Excel, Google Sheet = กู้คืนรายการสต๊อกตามหัวตาราง โซน, หมวด, ชื่อ, จำนวน, หน่วย, แจ้งเตือน</div></div><div id="restoreNotOwner" class="notice hidden">การกู้คืนข้อมูลทำได้เฉพาะ User เจ้าของเท่านั้น</div></div></div></div>
 
 
 <div id="pinPanel" class="overlay hidden"><div class="panel"><div class="panel-head"><h2>เปลี่ยน PIN ของฉัน</h2><button class="x" onclick="closePanels()">ปิด</button></div><div class="panel-body"><div class="notice">เปลี่ยนได้เฉพาะ PIN ของบัญชีที่กำลังใช้งานอยู่ เพื่อความปลอดภัยอย่าบอก PIN ให้คนอื่น</div><label>PIN เดิม</label><input id="oldPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="กรอก PIN เดิม"><label style="display:block;margin-top:12px">PIN ใหม่</label><input id="newMyPin" type="password" inputmode="numeric" autocomplete="new-password" placeholder="ตั้ง PIN ใหม่"><label style="display:block;margin-top:12px">ยืนยัน PIN ใหม่</label><input id="confirmMyPin" type="password" inputmode="numeric" autocomplete="new-password" placeholder="กรอก PIN ใหม่อีกครั้ง"><button class="btn-main" style="width:100%;margin-top:16px" onclick="changeMyPin()">บันทึก PIN ใหม่</button></div></div></div>
@@ -191,8 +191,9 @@ let activeZone = localStorage.getItem("rendoActiveZone_v1") || (db && db.activeZ
 if(!ZONES.includes(activeZone)) activeZone = ZONES[0];
 const OFFLINE_MESSAGE = "ออฟไลน์อยู่ กรุณาต่ออินเตอร์เน็ตก่อน";
 const MUTATING_ACTIONS = [
-  "openPanel(\'itemPanel\')","openPanel(\'pinPanel\')","openPanel(\'staffPanel\')","openPanel(\'themePanel\')","editItem","openQty","addQty","saveQty","saveItem","deleteItem","toggleHistoryHidden",
+  "openQty","addQty","saveQty","saveItem","deleteItem","toggleHistoryHidden",
   "addStaff","changeStaffRole","removeStaff","changeMyPin","restoreBackup",
+  "restoreFromSelectedFile","restoreFromGoogleSheet",
   "saveTheme","saveBackupSettings","backupNowToDrive","testAppsScriptBackup",
   "postAppsScriptBackup"
 ];
@@ -255,7 +256,7 @@ function previewLogoFile(input){
 }
 let backupTimer=null, backupDebounceTimer=null;
 function backupSettings(){ db.settings={...defaultSettings(),...(db.settings||{})}; return db.settings; }
-function prepareBackupPanel(){let st=backupSettings(); if(appsScriptUrl)appsScriptUrl.value=st.backupUrl||""; if(backupMode)backupMode.value=st.backupMode||"off"; if(backupEveryMinutes)backupEveryMinutes.value=String(st.backupEveryMinutes||15); updateBackupStatus(); configureBackupTimer();}
+function prepareBackupPanel(){let st=backupSettings(); if(appsScriptUrl)appsScriptUrl.value=st.backupUrl||""; if(backupMode)backupMode.value=st.backupMode||"off"; if(backupEveryMinutes)backupEveryMinutes.value=String(st.backupEveryMinutes||15); if(restoreOwnerSection)restoreOwnerSection.classList.toggle("hidden",!(current&&current.role==="owner")); if(restoreNotOwner)restoreNotOwner.classList.toggle("hidden",current&&current.role==="owner"); if(restoreOwnerPin)restoreOwnerPin.value=""; updateBackupStatus(); configureBackupTimer();}
 function saveBackupSettings(){if(!requireOnlineForChange())return;let st=backupSettings(); st.backupUrl=(appsScriptUrl.value||"").trim(); st.backupMode=backupMode.value||"off"; st.backupEveryMinutes=Math.max(1,Number(backupEveryMinutes.value||15)); db.settings=st; save(); configureBackupTimer(); updateBackupStatus(); alert("บันทึกตั้งค่าสำรองข้อมูลแล้ว")}
 function configureBackupTimer(){clearInterval(backupTimer); let st=backupSettings(); if((st.backupMode==="interval"||st.backupMode==="both") && st.backupUrl){backupTimer=setInterval(()=>postAppsScriptBackup(false,"interval"), Math.max(1,Number(st.backupEveryMinutes||15))*60000)}}
 function scheduleDriveBackup(){clearTimeout(backupDebounceTimer); if(isAppOffline())return; let st=backupSettings(); if(!(st.backupMode==="onChange"||st.backupMode==="both"))return; backupDebounceTimer=setTimeout(()=>postAppsScriptBackup(false,"change"),1500)}
@@ -292,14 +293,14 @@ function cats(){return [...new Set(db.items.filter(i=>i.zone==activeZone).map(i=
 function visibleHistoryItems(){return (db.history||[]).filter(h=>current&&current.role==="owner"?!0:!h.hidden)}
 function render(){normalizeDB();catFilter.innerHTML='<option value="">ทุกหมวด</option>'+cats().map(c=>`<option ${catFilter.value==c?'selected':''}>${c}</option>`).join("");let query=q.value.trim().toLowerCase();let list=db.items.filter(i=>i.zone==activeZone && (!catFilter.value||i.cat==catFilter.value) && (!query||i.name.toLowerCase().includes(query)||i.cat.toLowerCase().includes(query))); if(statusFilter.value=="low")list=list.filter(i=>Number(i.qty)<=Number(i.min)); if(statusFilter.value=="ok")list=list.filter(i=>Number(i.qty)>Number(i.min)); let all=db.items.filter(i=>i.zone==activeZone); let lows=all.filter(i=>Number(i.qty)<=Number(i.min)); sShown.textContent=list.length;sAll.textContent=all.length;sLow.textContent=lows.length;sHist.textContent=visibleHistoryItems().length;alertBox.textContent=`แจ้งเตือน: ${activeZone} มีของใกล้หมด/หมด ${lows.length} รายการ`; content.innerHTML=""; let by={}; list.forEach(i=>(by[i.cat]=by[i.cat]||[]).push(i)); Object.entries(by).forEach(([cat,items])=>{let sec=document.createElement("div");sec.className="section";sec.innerHTML=`<div class="section-head"><h2>${cat}</h2><small>${items.length} รายการ</small></div><div class="grid">${items.map(card).join("")}</div>`;content.appendChild(sec)});updateOfflineUI();}
 function card(i){let low=Number(i.qty)<=Number(i.min);return `<div class="card ${low?'low':''}"><div class="item-name">${i.name}</div><span class="pill">${i.zone}</span><span class="pill">เตือน ≤ ${i.min}</span><div class="qty">${i.qty}</div><div class="unit">${i.unit} ${low?'<b style="color:#dc2626">หมด/ใกล้หมด</b>':'ปกติ'}</div><div class="actions"><button class="btn-soft write-action" onclick="openQty('${i.id}','รับเข้า')">รับเข้า</button><button class="btn-danger write-action" onclick="openQty('${i.id}','เบิกออก')">เบิกออก</button><button class="btn-soft write-action" onclick="openQty('${i.id}','นับใหม่')">นับใหม่</button></div>${canManageItems()?`<div class="owner-actions"><button onclick="editItem('${i.id}')" class="btn-soft">แก้ชื่อ/เตือนใกล้หมด</button><button onclick="deleteItem('${i.id}')" class="btn-danger">ลบ</button></div>`:""}</div>`}
-function openPanel(id){ if(isAppOffline() && (id=="itemPanel"||id=="pinPanel"||id=="staffPanel"||id=="themePanel")){warnOffline();return} if(id=="staffPanel" && !canManageStaff()){alert("พนักงานทั่วไปเข้าเมนูนี้ไม่ได้");return} if(id=="backupPanel" && !(current.role=="owner"||current.role=="manager")){alert("เฉพาะเจ้าของ/ผู้จัดการ");return} document.getElementById(id).classList.remove("hidden"); if(id=="pinPanel"){oldPin.value="";newMyPin.value="";confirmMyPin.value="";} if(id=="historyPanel")renderHistory(); if(id=="backupPanel")prepareBackupPanel(); if(id=="staffPanel"){prepareStaffPanel();renderStaff();} if(id=="themePanel"){if(current.role!=="owner"){alert("เฉพาะเจ้าของเท่านั้น");closePanels();return} prepareThemePanel();}}
+function openPanel(id){ if(id=="staffPanel" && !canManageStaff()){alert("พนักงานทั่วไปเข้าเมนูนี้ไม่ได้");return} if(id=="backupPanel" && !(current.role=="owner"||current.role=="manager")){alert("เฉพาะเจ้าของ/ผู้จัดการ");return} document.getElementById(id).classList.remove("hidden"); if(id=="pinPanel"){oldPin.value="";newMyPin.value="";confirmMyPin.value="";} if(id=="historyPanel")renderHistory(); if(id=="backupPanel")prepareBackupPanel(); if(id=="staffPanel"){prepareStaffPanel();renderStaff();} if(id=="themePanel"){if(current.role!=="owner"){alert("เฉพาะเจ้าของเท่านั้น");closePanels();return} prepareThemePanel();}}
 function closePanels(){document.querySelectorAll(".overlay").forEach(e=>e.classList.add("hidden"))}
 document.addEventListener("keydown",e=>{if(e.key=="Escape")closePanels()}); document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)closePanels()}));
 function openQty(id,mode){if(!requireOnlineForChange())return;let i=db.items.find(x=>x.id==id);qtyId.value=id;qtyMode.value=mode;qtyTitle.textContent=`${mode}: ${i.name}`;qtyNumber.value="";qtyNote.value="";openPanel("qtyPanel")}
 function addQty(n){if(!requireOnlineForChange())return;qtyNumber.value=Math.max(0,Number(qtyNumber.value||0)+n);updateOfflineUI()}
 function saveQty(){if(!requireOnlineForChange())return;let i=db.items.find(x=>x.id==qtyId.value), n=Number(qtyNumber.value); if(isNaN(n)||n<0){alert("กรอกจำนวนให้ถูกต้อง");return}let before=Number(i.qty); if(qtyMode.value=="รับเข้า")i.qty=before+n; if(qtyMode.value=="เบิกออก")i.qty=Math.max(0,before-n); if(qtyMode.value=="นับใหม่")i.qty=n; log(qtyMode.value,i.name,before,i.qty,qtyNote.value);closePanels();render()}
 function saveItem(){if(!requireOnlineForChange())return;if(!canManageItems()){alert("ไม่มีสิทธิ์");return}let id=itemId.value;let data={zone:itemZone.value,cat:itemCat.value.trim(),name:itemName.value.trim(),unit:itemUnit.value.trim()||"หน่วย",qty:Number(itemQty.value||0),min:Number(itemMin.value||0)}; if(!data.name||!data.cat){alert("กรอกชื่อและหมวด");return} if(id){let i=db.items.find(x=>x.id==id);let old=i.name;Object.assign(i,data);log("แก้รายการ",data.name,"",data.qty,`แก้จาก ${old}`)}else{data.id="i"+Date.now();db.items.push(data);log("เพิ่มรายการ",data.name,"",data.qty,"")} save();closePanels();render()}
-function editItem(id){if(!requireOnlineForChange())return;let i=db.items.find(x=>x.id==id);itemTitle.textContent="แก้รายการ";itemId.value=i.id;itemName.value=i.name;itemZone.value=i.zone;itemCat.value=i.cat;itemUnit.value=i.unit;itemQty.value=i.qty;itemMin.value=i.min;openPanel("itemPanel")}
+function editItem(id){let i=db.items.find(x=>x.id==id);itemTitle.textContent="แก้รายการ";itemId.value=i.id;itemName.value=i.name;itemZone.value=i.zone;itemCat.value=i.cat;itemUnit.value=i.unit;itemQty.value=i.qty;itemMin.value=i.min;openPanel("itemPanel")}
 function deleteItem(id){if(!requireOnlineForChange())return;if(!canManageItems())return;let i=db.items.find(x=>x.id==id);if(confirm("ลบรายการ "+i.name+" ?")){db.items=db.items.filter(x=>x.id!=id);log("ลบรายการ",i.name,i.qty,0,"");save();render()}}
 function renderHistory(){normalizeDB();let s=(hSearch.value||"").toLowerCase(), t=hType.value;let arr=db.history.filter(h=>current&&current.role==="owner"?!0:!h.hidden).filter(h=>(!t||h.type==t)&&(!s||JSON.stringify(h).toLowerCase().includes(s))).slice(0,300);historyList.innerHTML=arr.map(h=>`<div class="history-row ${h.hidden?'is-hidden':''}"><b>${h.type}: ${h.item}</b> ${h.hidden?'<span class="pill">ซ่อนอยู่</span>':''}<br><small>${h.time} โดย ${h.user} (${h.role})</small><br>ก่อน: ${h.before??""} → หลัง: ${h.after??""} ${h.note?`<br>หมายเหตุ: ${h.note}`:""}${current&&current.role==="owner"?`<div class="history-actions"><button class="${h.hidden?'btn-soft':'btn-danger'}" onclick="toggleHistoryHidden('${h.id}')">${h.hidden?'แสดงกลับมา':'ซ่อนประวัติ'}</button></div>`:""}</div>`).join("")||"<div class='notice'>ยังไม่มีประวัติ</div>";updateOfflineUI()}
 function toggleHistoryHidden(id){if(!requireOnlineForChange())return;if(!current||current.role!=="owner")return alert("เฉพาะเจ้าของเท่านั้น");let h=db.history.find(x=>x.id===id);if(!h)return;h.hidden=!h.hidden;save();renderHistory();if(!document.getElementById('app').classList.contains('hidden'))render();}
@@ -330,7 +331,150 @@ function changeMyPin(){
 function csv(rows){return rows.map(r=>r.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(",")).join("\n")}
 function download(name,text,type="text/plain"){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click()}
 function downloadBackup(){download("ramen-stock-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(db,null,2),"application/json")}
-function restoreBackup(){if(!requireOnlineForChange())return;let f=restoreFile.files[0];if(!f)return alert("เลือกไฟล์ก่อน");let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result); if(!obj.items||!obj.users)throw Error(); db=obj;normalizeDB();save();alert("กู้คืนสำเร็จ");location.reload()}catch(e){alert("ไฟล์ไม่ถูกต้อง")}};r.readAsText(f)}
+function requireOwnerPinForRestore(){
+ if(!requireOnlineForChange())return false;
+ if(!current || current.role!=="owner"){alert("Restore ทำได้เฉพาะ User เจ้าของเท่านั้น");return false}
+ let pin=(restoreOwnerPin&&restoreOwnerPin.value||"").trim();
+ if(!pin){alert("กรุณากรอก PIN เจ้าของเพื่อยืนยันก่อน Restore");return false}
+ if(pin!==current.pin){alert("PIN ไม่ถูกต้อง");return false}
+ return true;
+}
+function clearRestoreInputs(){if(restoreFile)restoreFile.value=""; if(restoreSheetUrl)restoreSheetUrl.value=""; if(restoreOwnerPin)restoreOwnerPin.value="";}
+function showRestoreFormat(){alert("รูปแบบตารางสำหรับ CSV / Excel / Google Sheet:\nแถวแรกต้องเป็นหัวตาราง\nโซน | หมวด | ชื่อ | จำนวน | หน่วย | แจ้งเตือน\n\nตัวอย่าง:\nสต๊อก ครัวหน้าบ้าน | เนื้อสัตว์ | หมูชาชู | 10 | แพ็ค | 3\n\nJSON backup จะกู้คืนข้อมูลทั้งระบบ ส่วน CSV/Excel/Google Sheet จะกู้คืนรายการสต๊อก")}
+function restoreBackup(){return restoreFromSelectedFile();}
+async function restoreFromSelectedFile(){
+ if(!requireOwnerPinForRestore())return;
+ let f=restoreFile&&restoreFile.files&&restoreFile.files[0];
+ if(!f)return alert("เลือกไฟล์ JSON / CSV / Excel ก่อน");
+ let name=(f.name||"").toLowerCase();
+ try{
+  if(name.endsWith(".json") || f.type==="application/json"){
+    let text=await readFileAsText(f);
+    restoreFromJSONText(text);
+    return;
+  }
+  if(name.endsWith(".csv") || f.type==="text/csv"){
+    let text=await readFileAsText(f);
+    restoreItemsFromRows(parseCSV(text),"CSV");
+    return;
+  }
+  if(name.endsWith(".xlsx") || name.endsWith(".xls")){
+    let rows=await readExcelFirstSheet(f);
+    restoreItemsFromRows(rows,"Excel");
+    return;
+  }
+  alert("รองรับเฉพาะไฟล์ .json, .csv, .xlsx, .xls");
+ }catch(e){console.error(e);alert("Restore ไม่สำเร็จ: "+(e&&e.message?e.message:e));}
+}
+async function restoreFromGoogleSheet(){
+ if(!requireOwnerPinForRestore())return;
+ let url=(restoreSheetUrl&&restoreSheetUrl.value||"").trim();
+ if(!url)return alert("กรุณาวาง Google Sheet URL ก่อน");
+ try{
+   let csvUrl=googleSheetCsvUrl(url);
+   let res=await fetch(csvUrl,{method:"GET"});
+   if(!res.ok)throw Error("เปิด Google Sheet ไม่ได้ กรุณาตั้งแชร์เป็น Anyone with the link หรือ Publish to web");
+   let text=await res.text();
+   restoreItemsFromRows(parseCSV(text),"Google Sheet");
+ }catch(e){console.error(e);alert("Restore จาก Google Sheet ไม่สำเร็จ: "+(e&&e.message?e.message:e));}
+}
+function readFileAsText(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(String(r.result||""));r.onerror=()=>reject(Error("อ่านไฟล์ไม่ได้"));r.readAsText(file,"utf-8");});}
+function readFileAsArrayBuffer(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error("อ่านไฟล์ไม่ได้"));r.readAsArrayBuffer(file);});}
+async function ensureXLSX(){
+ if(window.XLSX)return window.XLSX;
+ await new Promise((resolve,reject)=>{let s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";s.onload=resolve;s.onerror=()=>reject(Error("โหลดตัวอ่าน Excel ไม่ได้ กรุณาต่ออินเทอร์เน็ตแล้วลองใหม่"));document.head.appendChild(s);});
+ return window.XLSX;
+}
+async function readExcelFirstSheet(file){
+ let XLSX=await ensureXLSX();
+ let data=await readFileAsArrayBuffer(file);
+ let wb=XLSX.read(data,{type:"array"});
+ let sheetName=wb.SheetNames[0];
+ if(!sheetName)throw Error("ไม่พบชีตในไฟล์ Excel");
+ return XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,raw:false,defval:""});
+}
+function restoreFromJSONText(text){
+ let obj=JSON.parse(text);
+ let source=obj&&obj.db?obj.db:obj;
+ if(Array.isArray(source))return restoreItemsFromRows(source,"JSON items");
+ if(!source || !Array.isArray(source.items))throw Error("ไฟล์ JSON ไม่ถูกต้อง");
+ if(Array.isArray(source.users)){
+   if(!confirm("ยืนยัน Restore JSON ทั้งระบบ? ข้อมูลสต๊อก ผู้ใช้ ประวัติ และตั้งค่าปัจจุบันจะถูกแทนที่"))return;
+   db=source;
+   normalizeDB();
+   if(!db.users.some(u=>u.role==="owner"))throw Error("JSON นี้ไม่มีบัญชีเจ้าของ");
+   db.history.unshift({id:"h"+Date.now()+"_restore",time:new Date().toLocaleString("th-TH"),user:current?current.name:"เจ้าของ",role:current?roleName(current.role):"เจ้าของ/Admin",type:"Restore JSON",item:"กู้คืนข้อมูลทั้งระบบ",before:"",after:(db.items||[]).length,note:"Restore จากไฟล์ JSON",hidden:false});
+   save();
+   alert("Restore JSON ทั้งระบบสำเร็จ");
+   location.reload();
+ }else{
+   restoreItems(source.items,"JSON items");
+ }
+}
+function parseCSV(text){
+ text=String(text||"").replace(/^\uFEFF/,"");
+ let rows=[],row=[],cell="",q=false;
+ for(let i=0;i<text.length;i++){
+  let c=text[i],n=text[i+1];
+  if(q){
+   if(c==='"'&&n==='"'){cell+='"';i++;}
+   else if(c==='"'){q=false;}
+   else cell+=c;
+  }else{
+   if(c==='"')q=true;
+   else if(c===','){row.push(cell);cell="";}
+   else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell="";}
+   else if(c==='\r'){}
+   else cell+=c;
+  }
+ }
+ row.push(cell);rows.push(row);
+ return rows.filter(r=>r.some(v=>String(v||"").trim()!==""));
+}
+function googleSheetCsvUrl(url){
+ let m=url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/) || url.match(/[?&]id=([a-zA-Z0-9-_]+)/);
+ if(!m)throw Error("ลิงก์ Google Sheet ไม่ถูกต้อง");
+ let gid=(url.match(/[?&]gid=(\d+)/)||url.match(/#gid=(\d+)/)||[])[1]||"0";
+ return "https://docs.google.com/spreadsheets/d/"+m[1]+"/export?format=csv&gid="+gid;
+}
+function normalizeHeader(v){return String(v||"").trim().toLowerCase().replace(/\s+/g,"");}
+function findCol(headers,names){let hs=headers.map(normalizeHeader);for(let n of names){let key=normalizeHeader(n);let idx=hs.findIndex(h=>h===key||h.includes(key));if(idx>=0)return idx;}return -1;}
+function rowsToItems(rows){
+ if(!rows || !rows.length)throw Error("ไม่พบข้อมูลในไฟล์");
+ let header=rows[0].map(v=>String(v||"").trim());
+ let hasHeader=header.some(h=>/[ก-๙a-zA-Z]/.test(h));
+ let start=hasHeader?1:0;
+ let cZone=hasHeader?findCol(header,["โซน","zone"]):0;
+ let cCat=hasHeader?findCol(header,["หมวด","category","cat"]):1;
+ let cName=hasHeader?findCol(header,["ชื่อ","ชื่อรายการ","รายการ","item","name"]):2;
+ let cQty=hasHeader?findCol(header,["จำนวน","qty","quantity","stock"]):3;
+ let cUnit=hasHeader?findCol(header,["หน่วย","unit"]):4;
+ let cMin=hasHeader?findCol(header,["แจ้งเตือน","เตือน","min","minimum","alert"]):5;
+ if(cName<0)throw Error("ไม่พบคอลัมน์ชื่อรายการ");
+ return rows.slice(start).map((r,idx)=>({
+   id:"i"+Date.now()+"_"+idx,
+   zone:String(r[cZone>=0?cZone:0]||ZONES[0]).trim()||ZONES[0],
+   cat:String(r[cCat>=0?cCat:1]||"ไม่ระบุหมวด").trim()||"ไม่ระบุหมวด",
+   name:String(r[cName]||"").trim(),
+   qty:Number(String(r[cQty>=0?cQty:3]||0).replace(/,/g,""))||0,
+   unit:String(r[cUnit>=0?cUnit:4]||"หน่วย").trim()||"หน่วย",
+   min:Number(String(r[cMin>=0?cMin:5]||0).replace(/,/g,""))||0
+ })).filter(i=>i.name).map(i=>{if(!ZONES.includes(i.zone))i.zone=ZONES[0];return i;});
+}
+function restoreItemsFromRows(rows,sourceName){restoreItems(rowsToItems(rows),sourceName);}
+function restoreItems(items,sourceName){
+ if(!Array.isArray(items)||!items.length)throw Error("ไม่พบรายการสต๊อกที่กู้คืนได้");
+ if(!confirm("ยืนยัน Restore รายการสต๊อกจาก "+sourceName+" ? รายการสต๊อกปัจจุบันจะถูกแทนที่ แต่ผู้ใช้/ตั้งค่า/ประวัติยังอยู่"))return;
+ let before=(db.items||[]).length;
+ db.items=items.map((i,idx)=>({id:i.id||("i"+Date.now()+"_"+idx),zone:ZONES.includes(i.zone)?i.zone:ZONES[0],cat:i.cat||"ไม่ระบุหมวด",name:i.name,qty:Number(i.qty)||0,unit:i.unit||"หน่วย",min:Number(i.min)||0}));
+ db.history=Array.isArray(db.history)?db.history:[];
+ db.history.unshift({id:"h"+Date.now()+"_restore",time:new Date().toLocaleString("th-TH"),user:current?current.name:"เจ้าของ",role:current?roleName(current.role):"เจ้าของ/Admin",type:"Restore",item:"รายการสต๊อกจาก "+sourceName,before,after:db.items.length,note:"Restore โดยเจ้าของและยืนยัน PIN แล้ว",hidden:false});
+ normalizeDB();
+ save();
+ renderTabs();fillItemFormSelects();render();renderHistory();
+ alert("Restore สำเร็จ: "+db.items.length+" รายการ");
+}
+
 function exportStockCSV(){download("stock.csv",csv([["โซน","หมวด","ชื่อ","จำนวน","หน่วย","แจ้งเตือน"],...db.items.map(i=>[i.zone,i.cat,i.name,i.qty,i.unit,i.min])]),"text/csv")}
 function exportHistoryCSV(){download("history.csv",csv([["เวลา","ผู้ใช้","สิทธิ์","ประเภท","รายการ","ก่อน","หลัง","หมายเหตุ"],...db.history.map(h=>[h.time,h.user,h.role,h.type,h.item,h.before,h.after,h.note])]),"text/csv")}
 loadDriveHandle();
